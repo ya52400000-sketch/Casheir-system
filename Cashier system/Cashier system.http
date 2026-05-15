@@ -1,0 +1,6 @@
+@Cashier_system_HostAddress = http://localhost:5239
+
+GET {{Cashier_system_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

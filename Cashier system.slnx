@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Cashier system.BLL/Cashier system.BLL.csproj" />
+  <Project Path="Cashier system.DAL/Cashier system.DAL.csproj" />
+  <Project Path="Cashier system/Cashier system.API.csproj" />
+</Solution>
