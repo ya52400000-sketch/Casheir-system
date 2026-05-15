@@ -27,45 +27,69 @@ public class AuthServices : IAuthServices
 
     public async Task<CommonRespond> LoginAsync(LogInDto logInDto)
     {
-        var user = await _userManager.FindByEmailAsync(logInDto.Email);
+        var user = await _userManager.FindByNameAsync(logInDto.UserName);
         if (user == null) 
         {
-            return new CommonRespond(false, "Invalid email or password", null, null);
+            return new CommonRespond(false, "Invalid UserName or password", null, null);
         }
         var passwordValid = await _userManager.CheckPasswordAsync(user, logInDto.Password);
         if (!passwordValid)
         {
-            return new CommonRespond(false, "Invalid email or password", null, null);
+            return new CommonRespond(false, "Invalid UserName or password", null, null);
         }
         var token = await TokenHandler.CreateTokenAsync(user,_configuration, _userManager);
         return new CommonRespond(true, "Login successful", null, token);
     }
 
-    public async Task<CommonRespond> RegisterAsync(RegisterDto registerDto)
+
+    public async Task<CommonRespond> RegisterWorkerAsync(RegisterDto dto)
     {
-        var ExistingUser = await _userManager.FindByEmailAsync(registerDto.Email);
-        if (ExistingUser != null)
-        {
+        return await RegisterWithRole(dto, "Worker");
+    }
+
+
+    public async Task<CommonRespond> RegisterOwnerAsync(RegisterDto dto)
+    {
+        return await RegisterWithRole(dto, "Owner");
+    }
+
+    private async Task<CommonRespond> RegisterWithRole(RegisterDto dto, string role)
+    {
+        var existingUser = await _userManager.FindByNameAsync(dto.UserName);
+
+        if (existingUser != null)
             return new CommonRespond(false, "User already exists", null, null);
-        } 
+
         var user = new AppUser
         {
-          FullName = registerDto.FullName,
-            UserName = registerDto.Email,
-            Email = registerDto.Email
+            UserName = dto.UserName
         };
-        var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+        var result = await _userManager.CreateAsync(user, dto.Password);
+
         if (!result.Succeeded)
         {
-            var errors = result.Errors.Select(e => e.Description).ToList();
-            return new CommonRespond(false, "User creation failed", errors, null);
+            return new CommonRespond(
+                false,
+                "User creation failed",
+                result.Errors.Select(e => e.Description).ToList(),
+                null
+            );
         }
-        var addroleResult = await _userManager.AddToRoleAsync(user, "Worker");
-        if (!addroleResult.Succeeded)
+
+    
+        var addRoleResult = await _userManager.AddToRoleAsync(user, role);
+
+        if (!addRoleResult.Succeeded)
         {
-            var errors = addroleResult.Errors.Select(e => e.Description).ToList();
-            return new CommonRespond(false, "Adding role failed", errors, null);
+            return new CommonRespond(
+                false,
+                "Adding role failed",
+                addRoleResult.Errors.Select(e => e.Description).ToList(),
+                null
+            );
         }
-        return new CommonRespond(true, "User created successfully", null, null);
+
+        return new CommonRespond(true, $"{role} created successfully", null, null);
     }
 }

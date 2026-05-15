@@ -15,15 +15,29 @@ public class RegisterController : ControllerBase
     {
         _authService = authService;
     }
-    [HttpPost]
-    public async Task<IActionResult> Register(RegisterDto dto)
+
+
+    [HttpPost("register-worker")]
+    public async Task<IActionResult> RegisterWorker([FromBody] RegisterDto dto)
     {
-        var result = await _authService.RegisterAsync(dto);
-        if (result.IsSuccess)
-        {
-            return Ok(result);
-        }
-        return BadRequest(result);
+        var result = await _authService.RegisterWorkerAsync(dto);
+
+        if (!result.IsSuccess)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+   
+    [HttpPost("register-owner")]
+    public async Task<IActionResult> RegisterOwner([FromBody] RegisterDto dto)
+    {
+        var result = await _authService.RegisterOwnerAsync(dto);
+
+        if (!result.IsSuccess)
+            return BadRequest(result);
+
+        return Ok(result);
     }
 
 }

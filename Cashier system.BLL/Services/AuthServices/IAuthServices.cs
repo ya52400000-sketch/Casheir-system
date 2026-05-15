@@ -11,6 +11,7 @@ namespace Cashier_system.BLL.Services.AuthServices;
 
 public interface IAuthServices
 {
-    Task<CommonRespond> RegisterAsync(RegisterDto registerDto);
+    Task<CommonRespond> RegisterWorkerAsync(RegisterDto dto);
+    Task<CommonRespond> RegisterOwnerAsync(RegisterDto dto);
     Task<CommonRespond> LoginAsync(LogInDto logInDto);
 }
