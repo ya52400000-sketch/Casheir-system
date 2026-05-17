@@ -16,13 +16,13 @@ public class OrderTypeConfiguration
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.TotalAmount)
+        builder.Property(x => x.TotalPrice)
                .HasColumnType("decimal(18,2)");
 
         builder.Property(x => x.Discount)
                .HasColumnType("decimal(18,2)");
 
-        builder.Property(x => x.NetAmount)
+        builder.Property(x => x.FinalPrice)
                .HasColumnType("decimal(18,2)");
 
         builder.HasOne(x => x.AppUser)

@@ -10,7 +10,7 @@ namespace Cashier_system.DAL.Repositores;
 {
     Task AddAsync(T entity) ;
     void Update(T entity) ;
-    Task DeleteAsync(T entity) ;
+    void DeleteAsync(T entity) ;
     Task<T> GetByIdAsync(Guid id) ;
     Task<IEnumerable<T>> GetAllAsync();
    

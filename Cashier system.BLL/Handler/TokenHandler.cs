@@ -19,7 +19,7 @@ public class TokenHandler
         var clamis = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier,user.Id),
-            new Claim(ClaimTypes.Email,user.Email)
+            new Claim(ClaimTypes.Email,user.Email??"")
         };
         var userRole = await userManager.GetRolesAsync(user);
         foreach (var role in userRole)

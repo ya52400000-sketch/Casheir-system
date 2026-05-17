@@ -11,6 +11,6 @@ public interface IOrderRepo: IGenricRepo<Order>
 {
 
     Task<IEnumerable<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
-    
 
+    Task<Order> GetOrderswithorderitem(Guid id);
 }

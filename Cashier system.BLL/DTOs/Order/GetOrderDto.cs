@@ -4,21 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cashier_system.DAL.Models;
-public class Order
+namespace Cashier_system.BLL.DTOs;
+
+public class GetOrderDto
 {
     public Guid Id { get; set; }
-
-    public DateTime OrderDate { get; set; } = DateTime.Now;
-
     public decimal TotalPrice { get; set; }
-
     public decimal Discount { get; set; }
-
     public decimal FinalPrice { get; set; }
-    public string AppUserId { get; set; }
-
-    public AppUser AppUser { get; set; }
-
-    public ICollection<OrderItem> OrderItems { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public List<OrderItemDto> Items { get; set; }
 }

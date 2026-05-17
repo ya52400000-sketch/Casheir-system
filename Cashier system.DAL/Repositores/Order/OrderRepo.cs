@@ -19,8 +19,18 @@ public class OrderRepo:GenricRepo<Order>, IOrderRepo
 
     public async Task<IEnumerable<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
-       return await _context.Orders.Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate)
-            .Include(o => o.OrderItems)
-            .ToListAsync();
+        return await _context.Orders
+              .Include(o => o.OrderItems)
+              .ThenInclude(i => i.Product)
+              .Where(o => o.OrderDate >= startDate && o.OrderDate <= endDate)
+              .ToListAsync();
+    }
+
+    public async Task<Order> GetOrderswithorderitem(Guid id)
+    {
+        return await _context.Orders
+       .Include(o => o.OrderItems)
+       .ThenInclude(i => i.Product)
+       .FirstOrDefaultAsync(o => o.Id == id);
     }
 }

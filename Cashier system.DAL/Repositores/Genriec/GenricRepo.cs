@@ -21,10 +21,10 @@ public class GenricRepo<T> : IGenricRepo<T> where T : class
 
     }
 
-    public async Task DeleteAsync(T entity)
+    public  void DeleteAsync(T entity)
     {
  
-            _context.Set<T>().Remove(entity);
+           _context.Set<T>().Remove(entity);
         
     }
 
