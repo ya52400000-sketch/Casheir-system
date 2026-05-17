@@ -13,6 +13,8 @@ public class Product
 
     public decimal Price { get; set; }
 
+    public bool IsActive { get; set; } = true;
+
 
     public Guid CategoryId { get; set; }
 

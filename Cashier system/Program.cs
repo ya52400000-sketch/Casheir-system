@@ -2,6 +2,8 @@ using Cashier_system.BLL.Services.AuthServices;
 using Cashier_system.BLL.Services.RolesServices;
 using Cashier_system.DAL.Data;
 using Cashier_system.DAL.Models;
+using Cashier_system.DAL.Repositores;
+using Cashier_system.DAL.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +23,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IAuthServices,AuthServices>();
 builder.Services.AddScoped<IRolesServices, RolesSevices>();
+builder.Services.AddScoped<ICategoryRepo,CategoryRepo>();
+builder.Services.AddScoped<IProductRepo,ProductRepo>();
+builder.Services.AddScoped<IOrderRepo,OrderRepo>();
+builder.Services.AddScoped<IOrderItemRepo,OrderItemRepo>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
